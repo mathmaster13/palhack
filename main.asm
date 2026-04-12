@@ -6462,25 +6462,45 @@ LEB10:  .byte   $63,$31,$F0
 ; This table simulates PAL note frequencies using NTSC hardwrae.
 ; It may sound bad; I don't know.
 noteToWaveTable:
+        ; $00: A1, rest, C2, Db2
         .dbyt    $088B,$0000,$0731,$06CA
+        ; $08: D2, Eb2, E2, F2
         .dbyt    $0668,$060C,$05B5,$0563
+        ; $10: Gb2, G2, Ab2, A2
         .dbyt    $0516,$04CC,$0487,$0446
+        ; $18: Bb2, B2, C3, Db3
         .dbyt    $0408,$03CE,$0398,$0365
+        ; $20: D3, Eb3, E3, F3
         .dbyt    $0333,$0306,$02DA,$02B1
+        ; $28: Gb3, G3, Ab3, A3
         .dbyt    $028A,$0266,$0243,$0223
+        ; $30: Bb3, B4, C4, Db4
         .dbyt    $0204,$01E7,$01CC,$01B2
+        ; $38: D4, Eb4, E4, F4
         .dbyt    $0199,$0183,$016C,$0157
+        ; $40: Gb4, G4, Ab4, A4
         .dbyt    $0144,$0132,$0121,$0110
+        ; $48: Bb4, B4, C5, Db5
         .dbyt    $0100,$00F2,$00E4,$00D7
+        ; $50: D5, Eb5, E5, F5
         .dbyt    $00CC,$00C0,$00B5,$00AB
+        ; $58: Gb5, G5, Ab5, A5
         .dbyt    $00A2,$0098,$008F,$0088
+        ; $60: Bb5, B5, C6, Db6
         .dbyt    $007F,$0079,$0071,$006B
+        ; $68: D6, Eb6, E6, F6
         .dbyt    $0065,$005F,$0059,$0055
+        ; $70: Gb6, G6, Ab6, A6
         .dbyt    $0050,$004B,$0047,$0043
+        ; $78: Bb6, B6, C7, Db7
         .dbyt    $003F,$003B,$0038,$0035
+        ; $80: D7, Eb7, E7, F7
         .dbyt    $0032,$002E,$002C,$002A
+        ; $88: very high, Gb7, G7, Ab7
         .dbyt    $0001,$0027,$0025,$0023
+        ; $90: A7, Bb7, B7, Eb9
         .dbyt    $0020,$001E,$001C,$000B
+        ; $98: Ab8, Db8
         .dbyt    $0011,$001B
 noteDurationTable:
         .byte   $03,$06,$0C,$18,$30,$12,$24,$09
