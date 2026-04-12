@@ -6459,27 +6459,29 @@ LEB0A:  .byte   $A9,$91,$F0
 LEB0D:  .byte   $85,$51,$F0
 LEB10:  .byte   $63,$31,$F0
 ; Rounds slightly differently, but can use for reference: https://web.archive.org/web/20180315161431if_/http://www.freewebs.com:80/the_bott/NotesTableNTSC.txt
+; This table simulates PAL note frequencies using NTSC hardwrae.
+; It may sound bad; I don't know.
 noteToWaveTable:
-        .dbyt   $07F0,$0000,$06AE,$064E
-        .dbyt   $05F3,$059E,$054D,$0501
-        .dbyt   $04B9,$0475,$0435,$03F8
-        .dbyt   $03BF,$0389,$0357,$0327
-        .dbyt   $02F9,$02CF,$02A6,$0280
-        .dbyt   $025C,$023A,$021A,$01FC
-        .dbyt   $01DF,$01C4,$01AB,$0193
-        .dbyt   $017C,$0167,$0152,$013F
-        .dbyt   $012D,$011C,$010C,$00FD
-        .dbyt   $00EE,$00E1,$00D4,$00C8
-        .dbyt   $00BD,$00B2,$00A8,$009F
-        .dbyt   $0096,$008D,$0085,$007E
-        .dbyt   $0076,$0070,$0069,$0063
-        .dbyt   $005E,$0058,$0053,$004F
-        .dbyt   $004A,$0046,$0042,$003E
-        .dbyt   $003A,$0037,$0034,$0031
-        .dbyt   $002E,$002B,$0029,$0027
-        .dbyt   $0001,$0024,$0022,$0020
-        .dbyt   $001E,$001C,$001A,$000A
-        .dbyt   $0010,$0019
+        .dbyt   $088B,$0000,$0730,$06C9
+        .dbyt   $0667,$060C,$05B4,$0563
+        .dbyt   $0515,$04CC,$0487,$0445
+        .dbyt   $0408,$03CE,$0398,$0364
+        .dbyt   $0333,$0306,$02D9,$02B1
+        .dbyt   $028A,$0265,$0243,$0222
+        .dbyt   $0203,$01E6,$01CB,$01B1
+        .dbyt   $0199,$0182,$016B,$0157
+        .dbyt   $0144,$0131,$0120,$0110
+        .dbyt   $0100,$00F2,$00E4,$00D7
+        .dbyt   $00CB,$00BF,$00B4,$00AB
+        .dbyt   $00A1,$0097,$008F,$0087
+        .dbyt   $007F,$0078,$0071,$006A
+        .dbyt   $0065,$005E,$0059,$0055
+        .dbyt   $004F,$004B,$0047,$0042
+        .dbyt   $003E,$003B,$0038,$0034
+        .dbyt   $0031,$002E,$002C,$002A
+        .dbyt   $0001,$0026,$0024,$0022
+        .dbyt   $0020,$001E,$001C,$000A
+        .dbyt   $0011,$001A
 noteDurationTable:
         .byte   $03,$06,$0C,$18,$30,$12,$24,$09
         .byte   $08,$04,$02,$01,$04,$08,$10,$20
