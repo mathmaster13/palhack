@@ -6462,25 +6462,25 @@ LEB10:  .byte   $63,$31,$F0
 ; This table simulates PAL note frequencies using NTSC hardwrae.
 ; It may sound bad; I don't know.
 noteToWaveTable:
-        .dbyt    $088B,$0000,$0731,$06CA,
-        .dbyt    $0668,$060C,$05B5,$0563,
-        .dbyt    $0516,$04CC,$0487,$0446,
-        .dbyt    $0408,$03CE,$0398,$0365,
-        .dbyt    $0333,$0306,$02DA,$02B1,
-        .dbyt    $028A,$0266,$0243,$0223,
-        .dbyt    $0204,$01E7,$01CC,$01B2,
-        .dbyt    $0199,$0183,$016C,$0157,
-        .dbyt    $0144,$0132,$0121,$0110,
-        .dbyt    $0100,$00F2,$00E4,$00D7,
-        .dbyt    $00CC,$00C0,$00B5,$00AB,
-        .dbyt    $00A2,$0098,$008F,$0088,
-        .dbyt    $007F,$0079,$0071,$006B,
-        .dbyt    $0065,$005F,$0059,$0055,
-        .dbyt    $0050,$004B,$0047,$0043,
-        .dbyt    $003F,$003B,$0038,$0035,
-        .dbyt    $0032,$002E,$002C,$002A,
-        .dbyt    $0001,$0027,$0025,$0023,
-        .dbyt    $0020,$001E,$001C,$000B,
+        .dbyt    $088B,$0000,$0731,$06CA
+        .dbyt    $0668,$060C,$05B5,$0563
+        .dbyt    $0516,$04CC,$0487,$0446
+        .dbyt    $0408,$03CE,$0398,$0365
+        .dbyt    $0333,$0306,$02DA,$02B1
+        .dbyt    $028A,$0266,$0243,$0223
+        .dbyt    $0204,$01E7,$01CC,$01B2
+        .dbyt    $0199,$0183,$016C,$0157
+        .dbyt    $0144,$0132,$0121,$0110
+        .dbyt    $0100,$00F2,$00E4,$00D7
+        .dbyt    $00CC,$00C0,$00B5,$00AB
+        .dbyt    $00A2,$0098,$008F,$0088
+        .dbyt    $007F,$0079,$0071,$006B
+        .dbyt    $0065,$005F,$0059,$0055
+        .dbyt    $0050,$004B,$0047,$0043
+        .dbyt    $003F,$003B,$0038,$0035
+        .dbyt    $0032,$002E,$002C,$002A
+        .dbyt    $0001,$0027,$0025,$0023
+        .dbyt    $0020,$001E,$001C,$000B
         .dbyt    $0011,$001B
 noteDurationTable:
         .byte   $03,$06,$0C,$18,$30,$12,$24,$09
@@ -6697,7 +6697,7 @@ music_endings_noiseScript:
 .segment        "PRG_chunk3": absolute
 
 ; incremented to reset MMC1 reg
-reset:  
+reset:
         ldx     #$06
         stx     $8000
         ldx     #$00
