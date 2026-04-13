@@ -6481,7 +6481,7 @@ noteToWaveTable:
         ; $40: Gb4, G4, Ab4, A4
         .dbyt    $0144,$0132,$0121,$0110
         ; $48: Bb4, B4, C5, Db5
-        .dbyt    $0100,$00F2,$00E4,$00D7
+        .dbyt    $00FF,$00F2,$00E4,$00D7
         ; $50: D5, Eb5, E5, F5
         .dbyt    $00CC,$00C0,$00B5,$00AB
         ; $58: Gb5, G5, Ab5, A5
