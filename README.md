@@ -1,3 +1,43 @@
+# Speedhack, but with a PAL build flag
+
+I used the most up-to-date version of CelestialAmber's Tetris disassembly. I searched for `.if PAL = 1`,
+and matched the `.else` block with existing code in order to add PAL support.
+
+But! I could not find all of the PAL code. Here is what I am missing:
+
+```asm
+@recording:
+        jsr     pollController
+.if PAL = 1
+        lda     heldButtons_player1
+        and     #$DF
+        sta     heldButtons_player1
+.endif
+        lda     gameMode
+        cmp     #$05
+```
+I can't find the equivalent code block in speedhack. Maybe it was removed.
+
+`MENU_CURSOR_MASK` is a constant used five times in the Tetris disassembly. I found the first two, but can't find the last three.
+Note that this constant is `$03` on NTSC.
+
+The three occurences of `MENU_CURSOR_MASK` are in `@showSelection`, `@skipShowingSelectionLevel`, and `@renderFrame`. 
+Only the last of these three labels exists in speedhack, and while I have a hunch that the one `$03` in that part of the code is indeed `MENU_CURSOR_MASK`, I cannot be entirely sure.
+
+The goal of this port is to make a much more faithful implementation of PALhack, by basing it off of the original PAL version of the game.
+On NTSC, this will become PAL60, so to fix this, we run the game at 5/6 speed using speedhack, just like the original PALhack does.
+
+This allows for easy replication of all of the weird audio quirks of PAL (e.g. the Tetris sound effect) because it...just is PAL.
+
+Issues:
+The audio engine (SFX like the Tetris sound, and music) follows the 60hz console framerate rather than the speedhack framerate.
+
+Changing the audio to follow the speedhack framerate will result in the audio speeding up and slowing down if we go faster or slower. That being said, is that a big deal?
+
+The one thing that you do NOT want speeding up or slowing down is the music. But if it does, it isn't a huge deal. I may use the tuning, tempo, or both from the NTSC ROM in my version of PALhack, since they might sound better on NTSC consoles. But this is not PALhack; this is speedhack!
+
+This also still feels slightly off from PAL. Not sure why.
+
 # NES Tetris Speedhack
 
 Romhack of NES Tetris that implements consistent subframe controller polling, intended to facilitate faster yet fair killscreen gameplay. The main idea is that the pieces fall in a predictable way, so not refreshing the display isn't a huge detriment.
