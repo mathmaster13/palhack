@@ -1,5 +1,6 @@
         .setcpu "6502"
 
+PAL = 1
 .ifndef PAL
 PAL = 0
 .endif
@@ -3857,8 +3858,12 @@ ending_typeBConcert:
         lda     #$47
         sta     spriteYOffset
         lda     frameCounter
+.if PAL = 1
+        and     #$04
+.else
         and     #$08
         lsr     a
+.endif
         lsr     a
         lsr     a
         clc
@@ -3910,8 +3915,12 @@ ending_typeBConcert:
         lda     #$A7
         sta     spriteYOffset
         lda     frameCounter
+.if PAL = 1
+        and     #$08
+.else
         and     #$10
         lsr     a
+.endif
         lsr     a
         lsr     a
         lsr     a
@@ -3939,8 +3948,12 @@ ending_typeBConcert:
         lda     #$D7
         sta     spriteYOffset
         lda     frameCounter
+.if PAL = 1
+        and     #$08
+.else
         and     #$10
         lsr     a
+.endif
         lsr     a
         lsr     a
         lsr     a
@@ -3953,8 +3966,12 @@ ending_typeBConcert:
         lda     #$D7
         sta     spriteYOffset
         lda     frameCounter
+.if PAL = 1
+        and     #$08
+.else
         and     #$10
         lsr     a
+.endif
         lsr     a
         lsr     a
         lsr     a
@@ -3968,8 +3985,12 @@ ending_typeBConcert:
         lda     #$77
         sta     spriteYOffset
         lda     frameCounter
+.if PAL = 1
+        and     #$08
+.else
         and     #$10
         lsr     a
+.endif
         lsr     a
         lsr     a
         lsr     a
@@ -4835,7 +4856,7 @@ type_a_ending_nametable:
 
 ; End of "PRG_chunk1" segment
 .code
-
+; the unreferenced data does not seem to be here. yay.
 .segment        "PRG_chunk1a": absolute
 
 ; Referenced by initSoundEffectShared
@@ -6290,26 +6311,55 @@ noteToWaveTable:
         .dbyt   $001E,$001C,$001A,$000A
         .dbyt   $0010,$0019
 noteDurationTable:
+.if PAL = 1
+        .byte   $02,$05,$0A,$14,$28,$0F,$1E,$03
+        .byte   $02,$04,$08,$10,$20,$0C,$18,$06
+        .byte   $05,$02,$01,$01,$03,$06,$0C,$18
+        .byte   $30,$12,$24,$09,$08,$04,$02,$01
+        .byte   $04,$08,$10,$20,$40,$18,$30,$0C
+        .byte   $0A,$05,$02,$01,$05,$0A,$14,$28
+        .byte   $50,$1E,$3C,$0F,$0D,$06,$02,$01
+        .byte   $06,$0C,$18,$30,$60,$24,$48,$12
+        .byte   $10,$08,$03,$01,$04,$02,$00,$90
+.else
+; 1/16  note, 1/8 note, 1/4 note, 1/2 note, full note, 3/8 note, 3/4 note, 3/16 note
+        ; 300 bpm
         .byte   $03,$06,$0C,$18,$30,$12,$24,$09
-        .byte   $08,$04,$02,$01,$04,$08,$10,$20
-        .byte   $40,$18,$30,$0C,$0A,$05,$02,$01
+        .byte   $08,$04,$02,$01
+        ; 225 bpm
+        .byte   $04,$08,$10,$20,$40,$18,$30,$0C
+        .byte   $0A,$05,$02,$01
+        ; 180 bpm
         .byte   $05,$0A,$14,$28,$50,$1E,$3C,$0F
-        .byte   $0D,$06,$02,$01,$06,$0C,$18,$30
-        .byte   $60,$24,$48,$12,$10,$08,$03,$01
-        .byte   $04,$02,$00,$90,$07,$0E,$1C,$38
-        .byte   $70,$2A,$54,$15,$12,$09,$03,$01
-        .byte   $02,$08,$10,$20,$40,$80,$30,$60
-        .byte   $18,$15,$0A,$04,$01,$02,$C0,$09
-        .byte   $12,$24,$48,$90,$36,$6C,$1B,$18
+        .byte   $0D,$06,$02,$01
+        ; 150 bpm
+        .byte   $06,$0C,$18,$30,$60,$24,$48,$12
+        .byte   $10,$08,$03,$01,$04,$02,$00,$90
+        ; 128 bpm
+        .byte   $07,$0E,$1C,$38,$70,$2A,$54,$15
+        .byte   $12,$09,$03,$01,$02
+        ; 112 bpm
+        .byte   $08,$10,$20,$40,$80,$30,$60,$18
+        .byte   $15,$0A,$04,$01,$02,$C0
+        ; 100 bpm
+        .byte   $09,$12,$24,$48,$90,$36,$6C,$1B
+        .byte   $18
+        ; 90 bpm
         .byte   $0A,$14,$28,$50,$A0,$3C,$78,$1E
-        .byte   $1A,$0D,$05,$01,$02,$17,$0B,$16
-        .byte   $2C,$58,$B0,$42,$84,$21,$1D,$0E
-        .byte   $05,$01,$02,$17
+        .byte   $1A,$0D,$05,$01,$02,$17
+        ; 82 bpm
+        .byte   $0B,$16,$2C,$58,$B0,$42,$84,$21
+        .byte   $1D,$0E,$05,$01,$02,$17
+.endif
 musicDataTableIndex:
         .byte   $00,$0A,$14,$1E,$28,$32,$3C,$46
         .byte   $50,$5A
 musicDataTable:
+.if PAL = 1 ; 12
+        .byte   $0A,$2C
+.else
         .byte   $0A,$24
+.endif
         .addr   music_titleScreen_sq1Script
         .addr   music_titleScreen_sq2Script
         .addr   music_titleScreen_triScript
@@ -6319,42 +6369,74 @@ musicDataTable:
         .addr   music_bTypeGoalAchieved_sq2Script
         .addr   music_bTypeGoalAchieved_triScript
         .addr   music_bTypeGoalAchieved_noiseScript
+.if PAL = 1
+        .byte   $81,$2C
+.else
         .byte   $81,$24
+.endif
         .addr   music_music1_sq1Script
         .addr   music_music1_sq2Script
         .addr   music_music1_triScript
         .addr   music_music1_noiseScript
+.if PAL = 1
+        .byte   $83,$2C
+.else
         .byte   $83,$24
+.endif
         .addr   music_music2_sq1Script
         .addr   music_music2_sq2Script
         .addr   music_music2_triScript
         .addr   music_music2_noiseScript
+.if PAL = 1
+        .byte   $81,$2C
+.else
         .byte   $81,$24
+.endif
         .addr   music_music3_sq1Script
         .addr   music_music3_sq2Script
         .addr   music_music3_triScript
         .addr   LFFFF
+.if PAL = 1
+        .byte   $81,$08
+.else
         .byte   $81,$00
+.endif
         .addr   music_music1_sq1Script
         .addr   music_music1_sq2Script
         .addr   music_music1_triScript
         .addr   music_music1_noiseScript
+.if PAL = 1
+        .byte   $83,$14
+.else
         .byte   $83,$0C
+.endif
         .addr   music_music2_sq1Script
         .addr   music_music2_sq2Script
         .addr   music_music2_triScript
         .addr   music_music2_noiseScript
+.if PAL = 1
+        .byte   $81,$14
+.else
         .byte   $81,$0C
+.endif
         .addr   music_music3_sq1Script
         .addr   music_music3_sq2Script
         .addr   music_music3_triScript
         .addr   LFFFF
+.if PAL = 1
+        .byte   $00,$20
+.else
         .byte   $00,$18
+.endif
         .addr   music_congratulations_sq1Script
         .addr   music_congratulations_sq2Script
         .addr   music_congratulations_triScript
         .addr   music_congratulations_noiseScript
+.if PAL = 1
+        .byte   $8F,$2C
+.else
         .byte   $8F,$24
+.endif
         .addr   music_endings_sq1Script
         .addr   music_endings_sq2Script
         .addr   music_endings_triScript
