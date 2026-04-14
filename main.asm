@@ -3645,9 +3645,17 @@ gameModeState_startButtonHandling:
 
 playState_bTypeGoalCheck:
         lda     gameType
-        beq     @ret
+.if PAL = 1
+        beq     checkSelectHeldToAddPoints
+        lda     heldButtons
+        and     #$20
+        bne     @gameOver
+.else
+        beq     playState_bTypeGoalCheck_ret
+.endif
         lda     lines
-        bne     @ret
+        bne     playState_bTypeGoalCheck_ret
+@gameOver:
         lda     #$02
         jsr     setMusicTrack
         ldy     #$46
@@ -3674,7 +3682,8 @@ playState_bTypeGoalCheck:
         inc     gameModeState
         rts
 
-@ret:  inc     playState
+playState_bTypeGoalCheck_ret:
+        inc     playState
         rts
 
 typebSuccessGraphic:
@@ -3696,6 +3705,21 @@ sleep_for_a_vblanks:
         lda     sleepCounter
         bne     @loop
         rts
+
+.if PAL = 1
+checkSelectHeldToAddPoints:
+        lda     heldButtons
+        and     #$20
+        beq     playState_bTypeGoalCheck_ret
+        inc     score+2
+        ; player1_score was removed, likely due to redundancy
+        ; TODO if you find strange bugs, maybe look here?
+        ; inc     player1_score+2
+        lda     outOfDateRenderFlags
+        ora     #$04
+        sta     outOfDateRenderFlags
+        jmp     playState_bTypeGoalCheck_ret
+.endif
 
 ending_initTypeBVars:
         lda     #$00
