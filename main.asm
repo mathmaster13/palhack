@@ -1,5 +1,45 @@
         .setcpu "6502"
 
+.ifndef PAL
+PAL = 0
+.endif
+
+.if PAL = 1
+
+DAS_DELAY := $08
+DAS_RESET := $0C
+ENDING_SLEEP_TIME_1 := $66
+ENDING_SLEEP_TIME_2 := $33
+ENDING_SLEEP_TIME_3 := $1
+INITIAL_AUTOREPEAT_Y := $B4
+LEGAL_SLEEP_TIME := $CC
+MENU_CURSOR_MASK := $01 ; found the first two of five in the new disasm
+SFX_LEVELUP_INIT := $05
+SFX_LINE_COMPLETE_INIT := $04
+SFX_LINECLEAR_INIT := $03
+SFX_TETRIS_INIT := $04
+
+; other than that, found all of these magic numbers and replaced them
+; menu cursor mask shouldn't matter outside menus anyway
+; and may need to be $01 in all versions thanks to the new menus
+
+.else
+
+DAS_DELAY := $0A
+DAS_RESET := $10
+ENDING_SLEEP_TIME_1 := $80
+ENDING_SLEEP_TIME_2 := $40
+ENDING_SLEEP_TIME_3 := $2
+INITIAL_AUTOREPEAT_Y := $A0
+LEGAL_SLEEP_TIME := $FF
+MENU_CURSOR_MASK := $03
+SFX_LEVELUP_INIT := $06
+SFX_LINE_COMPLETE_INIT := $05
+SFX_LINECLEAR_INIT := $04
+SFX_TETRIS_INIT := $05
+
+.endif
+
 tmp1            := $0000
 tmp2            := $0001
 tmp3            := $0002
@@ -485,9 +525,9 @@ gameMode_legalScreen:
         ldx     #$02
         ldy     #$02
         jsr     memset_page
-        lda     #$FF
+        lda     #LEGAL_SLEEP_TIME
         jsr     sleep_for_a_vblanks
-        lda     #$FF
+        lda     #LEGAL_SLEEP_TIME
         sta     generalCounter
 @waitForStartButton:
         lda     newlyPressedButtons
@@ -674,7 +714,7 @@ L830B:  lda     #$FF
         lda     #$01
         sta     spriteIndexInOamContentLookup
         lda     frameCounter
-        and     #$03
+        and     #MENU_CURSOR_MASK
         bne     @flickerCursorPair1
         lda     #$02
         sta     spriteIndexInOamContentLookup
@@ -693,7 +733,7 @@ L830B:  lda     #$FF
         lda     #$67
         sta     spriteXOffset
         lda     frameCounter
-        and     #$03
+        and     #MENU_CURSOR_MASK
         bne     @flickerCursorPair2
         lda     #$02
         sta     spriteIndexInOamContentLookup
@@ -870,7 +910,7 @@ gameModeState_initGameState:
         sta     demoButtonsAddr+1
         lda     #$03
         sta     renderMode
-        lda     #$A0
+        lda     #INITIAL_AUTOREPEAT_Y
         sta     autorepeatY
         jsr     chooseNextTetrimino
         sta     currentPiece
@@ -1108,10 +1148,17 @@ drop_tetrimino:
         jmp     @ret
 
 framesPerDropTable:
-        .byte   $30,$2B,$26,$21,$1C,$17,$12,$0D
-        .byte   $08,$06,$05,$05,$05,$04,$04,$04
-        .byte   $03,$03,$03,$02,$02,$02,$02,$02
-        .byte   $02,$02,$02,$02,$02,$01
+.if PAL = 1
+    .byte   $24,$20,$1D,$19,$16,$12,$0F,$0B
+    .byte   $07,$05,$04,$04,$04,$03,$03,$03
+    .byte   $02,$02,$02,$01,$01,$01,$01,$01
+    .byte   $01,$01,$01,$01,$01,$01
+.else
+    .byte   $30,$2B,$26,$21,$1C,$17,$12,$0D
+    .byte   $08,$06,$05,$05,$05,$04,$04,$04
+    .byte   $03,$03,$03,$02,$02,$02,$02,$02
+    .byte   $02,$02,$02,$02,$02,$01
+.endif
 
 shift_tetrimino:
         lda     tetriminoX
@@ -1127,9 +1174,9 @@ shift_tetrimino:
         beq     @ret
         inc     autorepeatX
         lda     autorepeatX
-        cmp     #$10
+        cmp     #DAS_RESET
         bmi     @ret
-        lda     #$0A
+        lda     #DAS_DELAY
         sta     autorepeatX
         jmp     @buttonHeldDown
 
@@ -1161,7 +1208,7 @@ shift_tetrimino:
 @restoreX:
         lda     originalY
         sta     tetriminoX
-        lda     #$10
+        lda     #DAS_RESET
         sta     autorepeatX
 @ret:   rts
 
@@ -2389,7 +2436,7 @@ playState_updateGameOverCurtain:
         lda     score+2
         cmp     #$03
         bcc     @checkForStartButton
-        lda     #$80
+        lda     #ENDING_SLEEP_TIME_1
         jsr     sleep_for_a_vblanks
         jsr     endingAnimation_maybe
         jmp     @exitGame
@@ -2946,7 +2993,7 @@ L9EA4:  jsr     bulkCopyToPpu
         sta     renderMode
         lda     #$0A
         jsr     setMusicTrack
-        lda     #$80
+        lda     #ENDING_SLEEP_TIME_1
         jsr     render_endingUnskippable
         lda     score
         sta     $DC
@@ -2960,7 +3007,7 @@ L9EA4:  jsr     bulkCopyToPpu
         sta     score
         sta     score+1
         sta     score+2
-        lda     #$40
+        lda     #ENDING_SLEEP_TIME_2
         jsr     render_endingUnskippable
         lda     generalCounter4
         beq     L9F12
@@ -2977,11 +3024,11 @@ L9EFA:  lda     generalCounter4
         jsr     L9F62
         lda     #$01
         sta     soundEffectSlot1Init
-        lda     #$02
+        lda     #ENDING_SLEEP_TIME_3
         jsr     render_endingUnskippable
         lda     generalCounter4
         bne     L9EE8
-        lda     #$40
+        lda     #ENDING_SLEEP_TIME_2
         jsr     render_endingUnskippable
 L9F12:  lda     generalCounter5
         beq     L9F45
@@ -2998,13 +3045,13 @@ L9F28:  lda     generalCounter5
         jsr     L9F62
         lda     #$01
         sta     soundEffectSlot1Init
-        lda     #$02
+        lda     #ENDING_SLEEP_TIME_3
         jsr     render_endingUnskippable
         lda     generalCounter5
         bne     L9F16
         lda     #$02
         sta     soundEffectSlot1Init
-        lda     #$40
+        lda     #ENDING_SLEEP_TIME_2
         jsr     render_endingUnskippable
 L9F45:  jsr     render_ending
         jsr     updateAudioWaitForNmiAndResetOamStaging
@@ -4172,7 +4219,7 @@ LA926:  jsr     updateAudioWaitForNmiAndDisablePpuRendering
         sta     renderMode
         lda     #$0A
         jsr     setMusicTrack
-        lda     #$80
+        lda     #ENDING_SLEEP_TIME_1
         jsr     render_endingUnskippable
 LA95D:  jsr     render_ending
         jsr     updateAudioWaitForNmiAndResetOamStaging
@@ -5307,7 +5354,7 @@ soundEffectSlot1_rotateTetriminoPlaying:
         jmp     copyToSq1Channel
 
 soundEffectSlot1_tetrisAchievedInit:
-        lda     #$05
+        lda     #SFX_TETRIS_INIT
         ldy     #<soundEffectSlot1_tetrisAchievedInitData
         jsr     LE417
         lda     #$10
@@ -5320,7 +5367,7 @@ soundEffectSlot1_tetrisAchievedPlaying:
 LE417:  jmp     initSoundEffectShared
 
 soundEffectSlot1_lineCompletedInit:
-        lda     #$05
+        lda     #SFX_LINE_COMPLETE_INIT
         ldy     #<soundEffectSlot1_lineCompletedInitData
         jsr     LE417
         lda     #$08
@@ -5331,7 +5378,7 @@ soundEffectSlot1_lineCompletedPlaying:
         ldy     #<soundEffectSlot1_lineCompletedInitData
         bne     LE442
 soundEffectSlot1_lineClearingInit:
-        lda     #$04
+        lda     #SFX_LINECLEAR_INIT
         ldy     #<soundEffectSlot1_lineClearingInitData
         jsr     LE417
         lda     #$00
@@ -5418,7 +5465,7 @@ soundEffectSlot1_levelUpPlaying:
 LE4E9:  jmp     soundEffectSlot1Playing_stop
 
 soundEffectSlot1_levelUpInit:
-        lda     #$06
+        lda     #SFX_LEVELUP_INIT
         ldy     #<soundEffectSlot1_levelUpInitData
         jmp     initSoundEffectShared
 
