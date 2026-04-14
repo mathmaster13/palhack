@@ -1,3 +1,9 @@
+; There are 3 main types of commands that controls the instrument, duration, and pitch of the note
+; Instrument commands start with $9F and are followed by 2 values, stored into musicChanControl,x and musicVolControl,x
+; musicChanControl,x selects the type of instrument (1-indexed) using the low 5 bytes (high 3 bytes control something else?)
+; High byte of musicVolControl,x is stored in SQ1_VOL, so controls duty cycle and other flags. Low byte unknown
+; Duration commands have the form $Bx, where the x an index into a table of note lengths. It dictates the lengths for all notes after it, until another $Bx command comes up
+; All other bytes are indices into the note table, but also shifted per the note offset param in the song header
 music_music1_sq1Routine1:
         .byte   $9F,$0A,$F1,$B2,$20,$38,$20,$38
         .byte   $9F,$0D,$F1,$B2,$20,$38,$20,$38
@@ -71,6 +77,22 @@ music_music1_triRoutine1:
 music_music1_sq1Routine2:
         .byte   $C2,$B1,$46,$46,$4A,$4A,$4E,$4E
         .byte   $50,$50,$50,$50,$4A,$4A,$B2,$4E
+.if PAL = 1
+        .byte   $76,$B9,$38,$3E,$BB,$02,$B9,$46
+        .byte   $BB,$02,$B9,$38,$3E,$BB,$02,$B9
+        .byte   $46,$BB,$02,$B9,$38,$3E,$BB,$02
+        .byte   $B9,$46,$BB,$02,$B9,$38,$3E,$BB
+        .byte   $02,$B9,$46,$BB,$02,$B9,$34,$3C
+        .byte   $BB,$02,$B9,$42,$BB,$02,$B9,$34
+        .byte   $3C,$BB,$02,$B9,$42,$BB,$02,$B1
+        .byte   $42,$02,$64,$02,$FF,$9F,$0C,$F1
+        .byte   $B1,$5E,$5E,$62,$62,$B2,$66,$B1
+        .byte   $46,$02,$9F,$0B,$F1,$B1,$68,$68
+        .byte   $6C,$6C,$B2,$6E,$B1,$46,$02,$9F
+        .byte   $09,$F1,$B1,$6C,$6C,$6E,$6E,$B2
+        .byte   $72,$B1,$46,$02,$B1,$6E,$6E,$72
+        .byte   $72,$00
+.else
         .byte   $76,$B9,$38,$3E,$46,$38,$3E,$46
         .byte   $38,$3E,$46,$38,$3E,$46,$34,$3C
         .byte   $42,$34,$3C,$42,$B1,$42,$02,$64
@@ -80,6 +102,7 @@ music_music1_sq1Routine2:
         .byte   $6E,$B1,$46,$02,$9F,$09,$F1,$B1
         .byte   $6C,$6C,$6E,$6E,$B2,$72,$B1,$46
         .byte   $02,$B1,$6E,$6E,$72,$72,$00
+.endif
 music_music1_sq2Routine2:
         .byte   $C2,$B1,$4E,$4E,$50,$50,$54,$54
         .byte   $56,$56,$5A,$5A,$50,$50,$B2,$54
