@@ -5,10 +5,6 @@ and matched the `.else` block with existing code in order to add PAL support.
 
 This allows the PAL people to have nice things. But my real goal is to use this PAL port to make a much more faithful implementation of PALhack, by using PAL directly as much as possible.
 
-Fractal's PALhack is a mod for NTSC Tetris that allows it to play like PAL Tetris, whereas my PALhack will (hopefully!) be a mod for PAL Tetris that allows the PAL game itself to be run on NTSC hardware.
-
-Running the original PAL game allows for easy replication of the weird audio quirks of PAL (e.g. the Tetris sound effect) because it...just is PAL.
-
 The same idea can hopefully be extended to make a very accurate NTSChack for PAL consoles. 
 
 ## Speedhack-PAL: Issues
