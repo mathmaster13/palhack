@@ -32,11 +32,12 @@ This allows for easy replication of all of the weird audio quirks of PAL (e.g. t
 Issues:
 The audio engine (SFX like the Tetris sound, and music) follows the 60hz console framerate rather than the speedhack framerate.
 
-Changing the audio to follow the speedhack framerate will result in the audio speeding up and slowing down if we go faster or slower. That being said, is that a big deal?
+Changing the audio to follow the speedhack framerate will result in the audio speeding up and slowing down if we go faster or slower. I'm not sure how much this matters.
 
-The one thing that you do NOT want speeding up or slowing down is the music. But if it does, it isn't a huge deal. I may use the tuning, tempo, or both from the NTSC ROM in my version of PALhack, since they might sound better on NTSC consoles. But this is not PALhack; this is speedhack!
+The one thing that you do NOT want speeding up or slowing down is the music. But if it does, it isn't a huge deal. I may use the tuning, tempo, or both from the NTSC ROM in my version of PALhack, since they might sound better on NTSC consoles. In any case, the sound effects and visuals will have as close to correct timing as I can make them,
+even if the music will not be (I care about the music, but it is not trivial to do it well).
 
-This also still feels slightly off from PAL. Not sure why.
+But this is not PALhack; this is speedhack! Just plain old speedhack. It should be fairly close to PALhack (ignoring audio and line clear/Tetris animation delay issues) if you run it on NTSC at 5/6 speed. It still feels slightly off from PAL, or maybe that's just me.
 
 # NES Tetris Speedhack
 
