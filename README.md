@@ -3,6 +3,18 @@
 I used the most up-to-date version of CelestialAmber's Tetris disassembly. I searched for `.if PAL = 1`,
 and matched the `.else` block with existing code in order to add PAL support.
 
+This allows the PAL people to have nice things. But my real goal is to use this PAL port to make a much more faithful implementation of PALhack, by using PAL directly as much as possible.
+
+Fractal's PALhack is a mod for NTSC Tetris that allows it to play like PAL Tetris, whereas my PALhack will (hopefully!) be a mod for PAL Tetris that allows the PAL game itself to be run on NTSC hardware.
+
+Running the original PAL game allows for easy replication of the weird audio quirks of PAL (e.g. the Tetris sound effect) because it...just is PAL.
+
+The same idea can hopefully be extended to make a very accurate NTSChack for PAL consoles. 
+
+## Speedhack-PAL: Issues
+
+### Can't find all the PAL code
+
 But! I could not find all of the PAL code. Here is what I am missing:
 
 ```asm
@@ -24,20 +36,11 @@ Note that this constant is `$03` on NTSC.
 The three occurences of `MENU_CURSOR_MASK` are in `@showSelection`, `@skipShowingSelectionLevel`, and `@renderFrame`. 
 Only the last of these three labels exists in speedhack, and while I have a hunch that the one `$03` in that part of the code is indeed `MENU_CURSOR_MASK`, I cannot be entirely sure.
 
-The goal of this port is to make a much more faithful implementation of PALhack, by basing it off of the original PAL version of the game.
-On NTSC, this will become PAL60, so to fix this, we run the game at 5/6 speed using speedhack, just like the original PALhack does.
+## PALhack implementation: Issues
 
-This allows for easy replication of all of the weird audio quirks of PAL (e.g. the Tetris sound effect) because it...just is PAL.
+The audio engine (SFX like the Tetris sound, and music) follows the 60hz console framerate rather than the speedhack framerate. I'm pretty sure the timing of the line clear animation is also following 60hz and thus too fast. At the risk of making 6x speed not possible, I would love it if the entire game ran at 50Hz, including the music engine (and if the music engine refuses, at least the sound effects code).
 
-Issues:
-The audio engine (SFX like the Tetris sound, and music) follows the 60hz console framerate rather than the speedhack framerate.
-
-Changing the audio to follow the speedhack framerate will result in the audio speeding up and slowing down if we go faster or slower. I'm not sure how much this matters.
-
-The one thing that you do NOT want speeding up or slowing down is the music. But if it does, it isn't a huge deal. I may use the tuning, tempo, or both from the NTSC ROM in my version of PALhack, since they might sound better on NTSC consoles. In any case, the sound effects and visuals will have as close to correct timing as I can make them,
-even if the music will not be (I care about the music, but it is not trivial to do it well).
-
-Also, the speed select screen ought to be modified for PAL to say 50hz at 1/1, 25hz at 1/2, etc. Of course, PALhack will use NTSC's numbers, but this is speedhack (PAL port). Just plain old speedhack. It should be fairly close to PALhack (ignoring audio and line clear/Tetris animation delay issues) if you run it on NTSC at 5/6 speed.
+Changing the audio to follow the speedhack framerate will result in the audio speeding up and slowing down if we go faster or slower. This is bad for speedhack, which is intended to be used for practicing Tetris at different possible level speeds, and so speedhack-PAL also doesn't do this. However, the purpose of my PALhack is solely to run the PAL game "as natively as possible" on NTSC. Thus I don't care about any speed other than 5/6, and so this is fine.
 
 # NES Tetris Speedhack
 
