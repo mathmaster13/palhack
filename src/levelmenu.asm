@@ -356,10 +356,19 @@ stageSpeed:
         lda     #$00
         sta     menuBuffer+17
 ; convert to decimal
+.if PAL = 1
+        ; store 5000
+        lda     #$88
+        sta     factorA24
+        lda     #$13
+        sta     factorA24+1
+.else
+        ; store 6000
         lda     #$70
         sta     factorA24
         lda     #$17
-        sta     factorA24+1 ; store 6000
+        sta     factorA24+1
+.endif
         lda     pollsPerFrame
         sta     factorB24
         lda     #$00
