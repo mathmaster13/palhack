@@ -3,9 +3,7 @@
 I used the most up-to-date version of CelestialAmber's Tetris disassembly. I searched for `.if PAL = 1`,
 and matched the `.else` block with existing code in order to add PAL support.
 
-This allows the PAL people to have nice things. But my real goal is to use this PAL port to run a game as close to the PAL version as I possibly can on NTSC hardware.
-
-The same idea can hopefully be extended to make a very accurate NTSChack for PAL consoles. 
+This allows the PAL people to have nice things. But my real goal is to use this PAL port to run a game as close to the PAL version as I possibly can on NTSC hardware. I'm not sure what will be possible with this, but let's see!
 
 ## Speedhack-PAL: Issues
 
