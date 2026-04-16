@@ -31,7 +31,7 @@ I can't find the equivalent code block in speedhack. Maybe it was removed.
 `MENU_CURSOR_MASK` is a constant used five times in the Tetris disassembly. I found the first two, but can't find the last three.
 Note that this constant is `$03` on NTSC.
 
-The three occurences of `MENU_CURSOR_MASK` are in `@showSelection`, `@skipShowingSelectionLevel`, and `@renderFrame`. 
+The three missing occurences of `MENU_CURSOR_MASK` are in `@showSelection`, `@skipShowingSelectionLevel`, and `@renderFrame`. 
 Only the last of these three labels exists in speedhack, and while I have a hunch that the one `$03` in that part of the code is indeed `MENU_CURSOR_MASK`, I cannot be entirely sure.
 
 ## PALhack implementation: Issues
