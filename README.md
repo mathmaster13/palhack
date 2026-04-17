@@ -5,7 +5,12 @@ and matched the `.else` block with existing code in order to add PAL support.
 
 This allows the PAL people to have nice things. But my real goal is to use this PAL port to run a game as close to the PAL version as I possibly can on NTSC hardware. I'm not sure what will be possible with this, but let's see!
 
+I also fixed a minor bug - resetting now preserves all your menu data! Yay!
+
 ## Speedhack-PAL: Issues
+
+### PAL Music
+The PAL rocket screen music stops early, unlike both the NTSC speedhack and vanilla PAL version.
 
 ### Scanlines?
 
