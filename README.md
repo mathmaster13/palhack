@@ -5,7 +5,7 @@ and matched the `.else` block with existing code in order to add PAL support.
 
 This allows the PAL people to have nice things. But my real goal is to use this PAL port to run a game as close to the PAL version as I possibly can on NTSC hardware. I'm not sure what will be possible with this, but let's see!
 
-I also fixed a minor bug - resetting now preserves all your menu data! Yay!
+I also am fixing speedhack bugs if I find them.
 
 ## Speedhack-PAL: Issues
 
@@ -38,6 +38,10 @@ Note that this constant is `$03` on NTSC.
 
 The three missing occurences of `MENU_CURSOR_MASK` are in `@showSelection`, `@skipShowingSelectionLevel`, and `@renderFrame`. 
 Only the last of these three labels exists in speedhack, and while I have a hunch that the one `$03` in that part of the code is indeed `MENU_CURSOR_MASK`, I cannot be entirely sure.
+
+## Speedhack Bugs
+
+The music does not speed up when you're high up on the board; I haven't yet checked if this is a bug or an optimization/quality of life thing.
 
 ## Converting Speedhack-PAL to PALhack: Issues
 
