@@ -40,10 +40,12 @@ Only the last of these three labels exists in speedhack, and while I have a hunc
 
 Unless otherwise specified, these apply to Fractal's PALhack too.
 
-The music does not speed up when you're high up on the board. 
-I haven't yet checked if this is a bug or an optimization/quality of life thing.
+The music does not speed up when you're high up on the board.
+It turns out this is intentional, but I don't know why. Maybe lag, but there appears to be trouble with lag
+even without the `updateMusicSpeed` routine (even in vanilla speedhack: try level 9 6/1 speed; the second piece lags).
+In my version of PALhack (where the speedhack functionality will very likely be disabled), this hopefully won't be an issue?
 
-The music stops prematurely on the rocket screen instead of looping.
+The music stops prematurely on the rocket screen instead of looping. I'll check if this is intentional but I doubt it.
 
 Fixed (Speedhack only): Menu data does not persist after a reset, and a speed of 0/0 is displayed on the menu. Pressing start with 0/0 speed softlocks the game.
 

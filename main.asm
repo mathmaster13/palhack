@@ -11,6 +11,15 @@ DEV = 1
 DEV = 0
 .endif
 
+; Used to enable the (untested) music speedup from the vanilla game.
+; To me, the lag happens whether or not we enable this.
+; Lag only occurs on extreme speeds, and seems to occur with or without music,
+; but music makes it more noticeable in some ways.
+ALLEGRO = 0
+.ifndef ALLEGRO
+ALLEGRO = 0
+.endif
+
 .if PAL = 1
 
 DAS_DELAY := $08
@@ -2450,7 +2459,9 @@ playState_lockTetrimino:
         lda     #$00
         sta     lineIndex
         jsr     updatePlayfield
-        ; jsr     updateMusicSpeed
+.if ALLEGRO = 1
+        jsr     updateMusicSpeed
+.endif
         inc     playState
 @ret:   rts
 
