@@ -3001,6 +3001,7 @@ endingAnimation_maybe:
         bne     L9E49
         jmp     LA926
 
+; B type ending routine
 L9E49:  ldx     levelNumber
         lda     levelDisplayTable,x
         and     #$0F
