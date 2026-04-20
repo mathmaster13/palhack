@@ -1,8 +1,14 @@
         .setcpu "6502"
 
-PAL = 1
+PAL = 0
 .ifndef PAL
 PAL = 0
+.endif
+
+; Used to enable the cheats built into PAL on NTSC.
+DEV = 1
+.ifndef DEV
+DEV = 0
 .endif
 
 .if PAL = 1
@@ -387,7 +393,7 @@ initRamContinued:
         lda     #$01
         sta     subFrameTop
         sta     pollsPerFrame
-        lda     #29
+        lda     #$29
         sta     startLevel
         lda     #$02
         sta     startLevelTens
@@ -3693,7 +3699,7 @@ gameModeState_startButtonHandling:
 
 playState_bTypeGoalCheck:
         lda     gameType
-.if PAL = 1
+.if PAL = 1 || DEV = 1
         beq     checkSelectHeldToAddPoints
         lda     heldButtons
         and     #$20
@@ -3754,7 +3760,7 @@ sleep_for_a_vblanks:
         bne     @loop
         rts
 
-.if PAL = 1
+.if PAL = 1 || DEV = 1
 checkSelectHeldToAddPoints:
         lda     heldButtons
         and     #$20

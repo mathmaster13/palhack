@@ -9,9 +9,6 @@ I also am fixing speedhack bugs if I find them.
 
 ## Speedhack-PAL: Issues
 
-### PAL Music
-The PAL rocket screen music stops early, unlike both the NTSC speedhack and vanilla PAL version.
-
 ### Scanlines?
 
 On the surface it appears that none of Fractal's scanline counter magic needs to be modified for PAL despite some differences regarding scanlines that I cannot begin to understand. But maybe I'm wrong!
@@ -41,7 +38,14 @@ Only the last of these three labels exists in speedhack, and while I have a hunc
 
 ## Speedhack Bugs
 
-The music does not speed up when you're high up on the board; I haven't yet checked if this is a bug or an optimization/quality of life thing.
+Unless otherwise specified, these apply to Fractal's PALhack too.
+
+The music does not speed up when you're high up on the board. 
+I haven't yet checked if this is a bug or an optimization/quality of life thing.
+
+The music stops prematurely on the rocket screen instead of looping.
+
+Fixed (Speedhack only): Menu data does not persist after a reset, and a speed of 0/0 is displayed on the menu. Pressing start with 0/0 speed softlocks the game.
 
 ## Converting Speedhack-PAL to PALhack: Issues
 
