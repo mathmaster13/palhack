@@ -197,3 +197,11 @@ highScoreScoresA:	.res $C	; $0730
 highScoreScoresB:	.res $C	; $073C
 highScoreLevels:	.res $08	; $0748
 initMagic:	.res $05	; $0750
+backupSubFrameTop:   .res $01 ; $0755
+backupPollsPerFrame:   .res $01 ; $0756
+backupStartLevel:   .res $01 ; $0757
+backupStartLevelTens:   .res $01 ; $0758
+backupStartLevelOnes:   .res $01 ; $0759
+backupStartHeight:    .res $01 ; $075A
+backupMusicType:    .res $01 ; $075B
+backupGameType:    .res $01 ; $075C

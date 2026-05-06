@@ -187,6 +187,15 @@ highScoreScoresA:= $0730
 highScoreScoresB:= $073C
 highScoreLevels := $0748
 initMagic       := $0750                        ; Initialized to a hard-coded number. When resetting, if not correct number then it knows this is a cold boot
+backupSubFrameTop := $0755
+backupPollsPerFrame := $0756
+backupStartLevel := $0757
+backupStartLevelTens := $0758
+backupStartLevelOnes := $0759
+backupStartHeight := $075A
+backupMusicType := $075B
+backupGameType := $075C
+
 PPUCTRL         := $2000
 PPUMASK         := $2001
 PPUSTATUS       := $2002
@@ -246,6 +255,25 @@ render: lda     renderMode
         .addr   render_mode_play_and_demo
         .addr   render_mode_ending_animation
 initRamContinued:
+        ; before we clear everything out, there are a few values we want saved across resets.
+        ; we will preserve them, even if this is a cold boot, just to make life easier. - mathmaster13
+        lda     subFrameTop
+        sta     backupSubFrameTop
+        lda     pollsPerFrame
+        sta     backupPollsPerFrame
+        lda     startLevel
+        sta     backupStartLevel
+        lda     startLevelTens
+        sta     backupStartLevelTens
+        lda     startLevelOnes
+        sta     backupStartLevelOnes
+        lda     startHeight
+        sta     backupStartHeight
+        lda     gameType
+        sta     backupGameType
+        lda     musicType
+        sta     backupMusicType
+        ; now we can zero everything out
         ldy     #$06
         sty     tmp2
         ldy     #$00
@@ -272,6 +300,25 @@ initRamContinued:
         lda     initMagic+4
         cmp     #$9A
         bne     @initHighScoreTable
+        
+        ; at this point, we know we're in a warm boot, so let's reload those missing menu values - mathmaster13
+        lda     backupSubFrameTop
+        sta     subFrameTop
+        lda     backupPollsPerFrame
+        sta     pollsPerFrame
+        lda     backupStartLevel
+        sta     startLevel
+        lda     backupStartLevelTens
+        sta     startLevelTens
+        lda     backupStartLevelOnes
+        sta     startLevelOnes
+        lda     backupStartHeight
+        sta     startHeight
+        lda     backupGameType
+        sta     gameType
+        lda     backupMusicType
+        sta     musicType
+        
         jmp     @continueWarmBootInit
 
         ldx     #$00
