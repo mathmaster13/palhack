@@ -256,7 +256,7 @@ render: lda     renderMode
         .addr   render_mode_ending_animation
 initRamContinued:
         ; before we clear everything out, there are a few values we want saved across resets.
-        ; we will preserve them, even if this is a cold boot, just to make life easier. - mathmaster13
+        ; we will preserve them, even if this is a cold boot, just to make life easier.
         lda     subFrameTop
         sta     backupSubFrameTop
         lda     pollsPerFrame
@@ -301,7 +301,7 @@ initRamContinued:
         cmp     #$9A
         bne     @initHighScoreTable
         
-        ; at this point, we know we're in a warm boot, so let's reload those missing menu values - mathmaster13
+        ; at this point, we know we're in a warm boot, so let's reload those missing menu values
         lda     backupSubFrameTop
         sta     subFrameTop
         lda     backupPollsPerFrame
