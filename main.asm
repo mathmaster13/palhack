@@ -29,15 +29,11 @@ ENDING_SLEEP_TIME_2 := $33
 ENDING_SLEEP_TIME_3 := $1
 INITIAL_AUTOREPEAT_Y := $B4
 LEGAL_SLEEP_TIME := $CC
-MENU_CURSOR_MASK := $01 ; found the first two of five in the new disasm
+MENU_CURSOR_MASK := $01
 SFX_LEVELUP_INIT := $05
 SFX_LINE_COMPLETE_INIT := $04
 SFX_LINECLEAR_INIT := $03
 SFX_TETRIS_INIT := $04
-
-; other than that, found all of these magic numbers and replaced them
-; menu cursor mask shouldn't matter outside menus anyway
-; and may need to be $01 in all versions thanks to the new menus
 
 .else
 
@@ -3509,7 +3505,7 @@ highScoreEntryScreen:
         lda     #$0E
         sta     spriteIndexInOamContentLookup
         lda     frameCounter
-        and     #$03
+        and     #MENU_CURSOR_MASK
         bne     @flickerStateSelected_checkForStartPressed
         lda     #$02
         sta     spriteIndexInOamContentLookup
