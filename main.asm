@@ -1,12 +1,12 @@
         .setcpu "6502"
 
-PAL = 0
+
 .ifndef PAL
 PAL = 0
 .endif
 
 ; Used to enable the cheats built into PAL on NTSC.
-DEV = 1
+
 .ifndef DEV
 DEV = 0
 .endif
