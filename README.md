@@ -1,59 +1,20 @@
 # Speedhack, but with a PAL build flag
 
-I used the most up-to-date version of CelestialAmber's Tetris disassembly. I searched for `.if PAL = 1`,
-and matched the `.else` block with existing code in order to add PAL support.
+It's what it says it is.
 
-This allows the PAL people to have nice things. But my real goal is to use this PAL port to run a game as close to the PAL version as I possibly can on NTSC hardware. I'm not sure what will be possible with this, but let's see!
+Finished:
+- Every piece of code from the original ROM that is region-specific has been added to this version of speedhack.
 
-I also am fixing speedhack bugs if I find them.
+Current to-dos:
+- Any issues with the size of the ROM? PAL does have extra code that NTSC does not, and we didn't include any extra padding data.
+- Adjust scanline count code for PAL (scheduling controller polls, etc).
+- Check if any other speedhack-specific code, or even just re-implementations of original ROM code, needs to be adjusted for PAL
+- Figure out why allegro was turned off
+- Figure out how to tune the audio engine without it bugging out
 
-## Speedhack-PAL: Issues
+This allows the PAL people to have nice things. But my real goal is to use this PAL version as the basis for a different implementation of PALhack. I'm not sure what will come out of this, or if my idea is feasible, but let's see!
 
-### Scanlines?
-
-On the surface it appears that none of Fractal's scanline counter magic needs to be modified for PAL despite some differences regarding scanlines that I cannot begin to understand. But maybe I'm wrong!
-
-### Can't find all the PAL code
-
-But! I could not find all of the PAL code. Here is what I am missing:
-
-```asm
-@recording:
-        jsr     pollController
-.if PAL = 1
-        lda     heldButtons_player1
-        and     #$DF
-        sta     heldButtons_player1
-.endif
-        lda     gameMode
-        cmp     #$05
-```
-I can't find the equivalent code block in speedhack. Maybe it was removed.
-
-`MENU_CURSOR_MASK` is a constant used five times in the Tetris disassembly. I found the first two, but can't find the last three.
-Note that this constant is `$03` on NTSC.
-
-The three missing occurences of `MENU_CURSOR_MASK` are in `@showSelection`, `@skipShowingSelectionLevel`, and `@renderFrame`. 
-Only the last of these three labels exists in speedhack, and while I have a hunch that the one `$03` in that part of the code is indeed `MENU_CURSOR_MASK`, I cannot be entirely sure.
-
-## Speedhack Bugs
-
-Unless otherwise specified, these apply to Fractal's PALhack too.
-
-The music does not speed up when you're high up on the board.
-It turns out this is intentional, but I don't know why. Maybe lag, but there appears to be trouble with lag
-even without the `updateMusicSpeed` routine (even in vanilla speedhack: try level 9 6/1 speed; the second piece lags).
-In my version of PALhack (where the speedhack functionality will very likely be disabled), this hopefully won't be an issue?
-
-The music stops prematurely on the rocket screen instead of looping. I'll check if this is intentional but I doubt it.
-
-Fixed (Speedhack only): Menu data does not persist after a reset, and a speed of 0/0 is displayed on the menu. Pressing start with 0/0 speed softlocks the game.
-
-## Converting Speedhack-PAL to PALhack: Issues
-
-The audio engine (SFX like the Tetris sound, and music) follows the 60hz console framerate rather than the speedhack framerate. I'm pretty sure the timing of the line clear animation is also following 60hz and thus too fast. At the risk of making some speeds not possible, I would love it if the entire game ran at 50Hz, including the music engine (and if the music engine refuses, at least the sound effects code/animations).
-
-Changing the audio to follow the speedhack framerate will result in the audio speeding up and slowing down if we go faster or slower. This is bad for speedhack, which is intended to be used for practicing Tetris at different possible level speeds, and so speedhack-PAL also doesn't do this. However, the purpose of my PALhack is solely to run the PAL game "as natively as possible" on NTSC. Thus I don't care about any speed other than 5/6, and so this is fine.
+I also am fixing speedhack bugs if I find them, hopefully putting them upstream.
 
 # NES Tetris Speedhack
 
