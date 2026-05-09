@@ -2,19 +2,19 @@
 
 It's what it says it is.
 
+This allows the PAL people to have nice things. But my real goal is to use this PAL version as the basis for a different implementation of PALhack. I'm not sure what will come out of this, or if my idea is feasible, but let's see!
+
+I also am fixing speedhack bugs if I find them, hopefully putting them upstream.
+
 Finished:
 - Every piece of code from the original ROM that is region-specific has been added to this version of speedhack.
 
 Current to-dos:
-- Any issues with the size of the ROM? PAL does have extra code that NTSC does not, and we didn't include any extra padding data.
+- Any issues with the size of the ROM? PAL does have extra code that NTSC does not, and we didn't include any extra padding data. (Probably totally fine.)
 - Adjust scanline count code for PAL (scheduling controller polls, etc).
 - Check if any other speedhack-specific code, or even just re-implementations of original ROM code, needs to be adjusted for PAL
 - Figure out why allegro was turned off
 - Figure out how to tune the audio engine without it bugging out
-
-This allows the PAL people to have nice things. But my real goal is to use this PAL version as the basis for a different implementation of PALhack. I'm not sure what will come out of this, or if my idea is feasible, but let's see!
-
-I also am fixing speedhack bugs if I find them, hopefully putting them upstream.
 
 # NES Tetris Speedhack
 
