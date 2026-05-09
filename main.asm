@@ -398,12 +398,21 @@ initRamContinued:
         lda     #$01
         sta     subFrameTop
         sta     pollsPerFrame
+.if PAL = 1
+        lda     #$19
+        sta     startLevel
+        lda     #$01
+        sta     startLevelTens
+        lda     #$09
+        sta     startLevelOnes
+.else
         lda     #$29
         sta     startLevel
         lda     #$02
         sta     startLevelTens
         lda     #$09
         sta     startLevelOnes
+.endif
 @continueWarmBootInit:
         ldx     #$89
         stx     rng_seed
@@ -3718,7 +3727,7 @@ playState_bTypeGoalCheck:
         lda     lines
         bne     playState_bTypeGoalCheck_ret
 @gameOver:
-        lda     #$02
+        lda     #$02 ; loads B type congrats track
         jsr     setMusicTrack
         ldy     #$46
         ldx     #$00
